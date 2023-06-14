@@ -51,6 +51,26 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
         return new ResponseEntity<>(customErrorDetails, HttpStatus.BAD_REQUEST);
     }
 
+    // UserNotFoundException
+    @ExceptionHandler(UserNotFoundException.class)
+    public final ResponseEntity<Object> handleUserNotFoundException(UserNotFoundException ex, WebRequest request) {
+        CustomErrorDetails customErrorDetails =
+                new CustomErrorDetails(new Date(),
+                        ex.getMessage(),
+                        request.getDescription(false));
+        return new ResponseEntity<>(customErrorDetails, HttpStatus.BAD_REQUEST);
+    }
+
+    // OrderNotFoundException
+    @ExceptionHandler(OrderNotFoundException.class)
+    public final ResponseEntity<Object> handleOrderNotFoundException(OrderNotFoundException ex, WebRequest request) {
+        CustomErrorDetails customErrorDetails =
+                new CustomErrorDetails(new Date(),
+                        ex.getMessage(),
+                        request.getDescription(false));
+        return new ResponseEntity<>(customErrorDetails, HttpStatus.BAD_REQUEST);
+    }
+
     // ConstraintViolationException
     @ExceptionHandler(ConstraintViolationException.class)
     public final ResponseEntity<Object> handleConstraintViolationException(ConstraintViolationException ex,

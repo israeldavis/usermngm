@@ -13,37 +13,38 @@ import java.util.List;
 
 @RestController
 @Validated
+@RequestMapping("/users")
 public class UserController {
 
     @Autowired
     private UserService userService;
 
-    @GetMapping("/users")
+    @GetMapping
     public List<User> getAllUsers() {
         return userService.getAllUsers();
     }
 
-    @PostMapping("/users")
+    @PostMapping
     public User crateUser(@Valid @RequestBody User user) {
         return userService.createUser(user);
     }
 
-    @GetMapping("/users/{id}")
+    @GetMapping("{id}")
     public User getUserById(@PathVariable @Min(1) Long id) {
         return userService.getUserById(id).get();
     }
 
-    @PutMapping("/users/{id}")
+    @PutMapping("/{id}")
     public User updateUserById(@PathVariable("id") Long id, @RequestBody User user) {
         return userService.updateUserById(id, user);
     }
 
-    @DeleteMapping("/users/{id}")
+    @DeleteMapping("/{id}")
     public void deleteUserById(@PathVariable("id") Long id) {
         userService.deleteUserById(id);
     }
 
-    @GetMapping("/users/byusername/{username}")
+    @GetMapping("/byusername/{username}")
     public User getUserByUsername(@PathVariable("username") String username) throws UserNameNotFoundException {
         User user = userService.getUserByUsername(username);
         if(user == null) {
