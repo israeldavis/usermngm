@@ -1,13 +1,18 @@
 package com.buildingblocks.base.controllers;
 
 import com.buildingblocks.base.entities.User;
+import com.buildingblocks.base.exceptions.UserNameNotFoundException;
 import com.buildingblocks.base.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import java.util.List;
 
 @RestController
+@Validated
 public class UserController {
 
     @Autowired
@@ -19,12 +24,12 @@ public class UserController {
     }
 
     @PostMapping("/users")
-    public User crateUser(@RequestBody User user) {
+    public User crateUser(@Valid @RequestBody User user) {
         return userService.createUser(user);
     }
 
     @GetMapping("/users/{id}")
-    public User getUserById(@PathVariable Long id) {
+    public User getUserById(@PathVariable @Min(1) Long id) {
         return userService.getUserById(id).get();
     }
 
@@ -39,7 +44,11 @@ public class UserController {
     }
 
     @GetMapping("/users/byusername/{username}")
-    public User getUserByUsername(@PathVariable("username") String username) {
-        return userService.getUserByUsername(username);
+    public User getUserByUsername(@PathVariable("username") String username) throws UserNameNotFoundException {
+        User user = userService.getUserByUsername(username);
+        if(user == null) {
+            throw new UserNameNotFoundException("Username '" + username + "' not found in User repository.");
+        }
+        return user;
     }
 }
