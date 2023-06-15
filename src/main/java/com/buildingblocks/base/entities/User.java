@@ -1,5 +1,7 @@
 package com.buildingblocks.base.entities;
 
+import com.fasterxml.jackson.annotation.JsonFilter;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
@@ -7,6 +9,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "users")
+@JsonFilter(value = "userFilter")
 public class User {
 
     @Id
