@@ -1,5 +1,8 @@
 package com.buildingblocks.base.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
@@ -7,6 +10,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "users")
+@JsonIgnoreProperties({"firstName", "lastName"})
 public class User {
 
     @Id
@@ -24,6 +28,7 @@ public class User {
     @Column(name = "email_address", length = 150, nullable = false)
     private String email;
     @Column(name = "role", length = 50, nullable = false)
+    @JsonIgnore
     private String role;
     @Column(name = "ssn", length = 50, nullable = false, unique = true)
     private String ssn;
