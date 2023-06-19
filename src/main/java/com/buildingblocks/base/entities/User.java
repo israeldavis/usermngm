@@ -31,15 +31,27 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Order> orders;
 
+    @Column(name = "address")
+    private String address;
+
     public User() {}
 
-    public User(String username, String firstName, String lastName, String email, String role, String ssn) {
+    public User(@NotEmpty(message = "Username is mandatory field. Please provide usename") String username,
+                String firstName,
+                @Size(min = 2, message = "First Name should have at least 2 characters.") String lastName,
+                String email,
+                String role,
+                String ssn,
+                List<Order> orders,
+                String address) {
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.role = role;
         this.ssn = ssn;
+        this.orders = orders;
+        this.address = address;
     }
 
     public Long getId() {
@@ -106,6 +118,14 @@ public class User {
         this.orders = orders;
     }
 
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -116,6 +136,8 @@ public class User {
                 ", email='" + email + '\'' +
                 ", role='" + role + '\'' +
                 ", ssn='" + ssn + '\'' +
+                ", orders=" + orders +
+                ", address='" + address + '\'' +
                 '}';
     }
 }
