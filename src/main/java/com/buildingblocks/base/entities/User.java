@@ -1,24 +1,31 @@
 package com.buildingblocks.base.entities;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.List;
 
+@ApiModel(description = "This model is to create a user")
 @Entity
 @Table(name = "users")
 public class User {
 
+    @ApiModelProperty(notes = "Auto generated unique id", required = true, position = 0)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ApiModelProperty(notes = "username should be flname", example = "jperez", required = true, position = 1)
+    @Size(min = 2, max = 50)
     @NotEmpty(message = "Username is mandatory field. Please provide usename")
     @Column(name = "user_name", length = 50, nullable = false, unique = true)
     private String username;
     @Column(name = "first_name", length = 50, nullable = false)
     private String firstName;
-    @Size(min = 2, message = "First Name should have at least 2 characters.")
+    @Size(min = 2, max = 50, message = "First Name should have at least 2 characters.")
     @Column(name = "last_name", length = 50, nullable = false)
     private String lastName;
     @Column(name = "email_address", length = 150, nullable = false)

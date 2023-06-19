@@ -3,7 +3,11 @@ package com.buildingblocks.base.controllers;
 import com.buildingblocks.base.entities.User;
 import com.buildingblocks.base.exceptions.UserNameNotFoundException;
 import com.buildingblocks.base.services.UserService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,6 +15,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import java.util.List;
 
+@Api(tags = "User Managements RESTful Services", value = "User Controller", description = "Controller for User Management Service")
 @RestController
 @Validated
 @RequestMapping("/users")
@@ -19,13 +24,15 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping
+    @ApiOperation(value = "Retrieve list of users")
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<User> getAllUsers() {
         return userService.getAllUsers();
     }
 
+    @ApiOperation(value = "Create a new user")
     @PostMapping
-    public User crateUser(@Valid @RequestBody User user) {
+    public User crateUser(@ApiParam("User information for a new user to be created.") @Valid @RequestBody User user) {
         return userService.createUser(user);
     }
 
